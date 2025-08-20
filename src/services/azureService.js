@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// IMPORTANTE: Usar el proxy /api en lugar de la URL directa
-const AZURE_ML_ENDPOINT = '/api/score';
+// Usar proxy en desarrollo, URL directa en producción
+const AZURE_ML_ENDPOINT = import.meta.env.DEV 
+  ? '/api/score' 
+  : import.meta.env.VITE_AZURE_ML_ENDPOINT;
 
 const DEFAULT_API_KEY = import.meta.env.VITE_AZURE_API_KEY;
 
@@ -33,7 +35,7 @@ export const valorarVehiculo = async (vehicleData, apiKey = null) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${keyToUse.trim()}`
       },
-      timeout: 30000
+      timeout: 30000 // 30 segundos de timeout
     });
 
     return response.data;
