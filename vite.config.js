@@ -4,13 +4,23 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://1ea6ea7c-3f41-45f9-a433-3201ac93c384.brazilsouth.azurecontainer.io',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+  base: '/', // Ruta base para Apache
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          axios: ['axios']
+        }
       }
     }
+  },
+  // No necesitamos configuración de servidor para Apache
+  define: {
+    // Variables de entorno para el build
+    __API_ENDPOINT__: JSON.stringify('/api')
   }
 })
