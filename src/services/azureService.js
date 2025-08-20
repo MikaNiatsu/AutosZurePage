@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Para Apache, siempre usar el proxy /api
+// IMPORTANTE: Usar el proxy /api en lugar de la URL directa
 const AZURE_ML_ENDPOINT = '/api/score';
 
 const DEFAULT_API_KEY = import.meta.env.VITE_AZURE_API_KEY;

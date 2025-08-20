@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/', // Ruta base para Apache
+  base: '/',
   build: {
     outDir: 'dist',
     sourcemap: false,
@@ -18,9 +18,15 @@ export default defineConfig({
       }
     }
   },
-  // No necesitamos configuración de servidor para Apache
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    }
+  },
   define: {
-    // Variables de entorno para el build
     __API_ENDPOINT__: JSON.stringify('/api')
   }
 })
